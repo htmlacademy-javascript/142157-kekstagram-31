@@ -47,3 +47,26 @@ getNumber(1.5); // 15
 // console.log(getNumber(2023));
 // console.log(getNumber(-1));
 // console.log(getNumber(1.5));
+
+
+const checkTimeMeet = (beginWorkDay, endWorkDay, startMeet, durationMeet) => {
+  const MINUTES_IN_HOUR = 60;
+  const calcTimeInMinutes = (time) => {
+    const arrayTime = time.split(':');
+    return parseInt(arrayTime[0], 10) * MINUTES_IN_HOUR + parseInt(arrayTime[1], 10);
+  };
+
+  beginWorkDay = calcTimeInMinutes(beginWorkDay);
+  endWorkDay = calcTimeInMinutes(endWorkDay);
+  startMeet = calcTimeInMinutes(startMeet);
+  const timeMeeting = startMeet + durationMeet;
+
+  return startMeet >= beginWorkDay && timeMeeting <= endWorkDay;
+};
+
+checkTimeMeet('8:0', '10:0', '8:0', 120);
+// console.log(checkTimeMeet('8:0', '10:0', '8:0', 120));     // true
+// console.log(checkTimeMeet('08:00', '17:30', '14:00', 90)); // true
+// console.log(checkTimeMeet('08:00', '14:30', '14:00', 90)); // false
+// console.log(checkTimeMeet('14:00', '17:30', '08:0', 90));  // false
+// console.log(checkTimeMeet('8:00', '17:30', '08:00', 900)); // false
