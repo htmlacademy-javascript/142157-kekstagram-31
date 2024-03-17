@@ -1,11 +1,13 @@
 import { isEscapeKey } from './utils.js';
 import { createBigPicture } from './big-picture.js';
 import { clearComments } from './create-comments.js';
+import { likeClickHandler } from './likes.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const closeBigPictureButton = bigPicture.querySelector('.big-picture__cancel');
 const thumbnailsContainer = document.querySelector('.pictures');
 const thumbnailsPictureList = thumbnailsContainer.querySelectorAll('.picture__img');
+const bigPictureLike = bigPicture.querySelector('.likes-count');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -22,6 +24,7 @@ const openBigPictureModal = (index) => {
   document.body.classList.add('modal-open');
   createBigPicture(getIndexTarget(index));
   document.addEventListener('keydown', onDocumentKeydown);
+  bigPictureLike.addEventListener('click', likeClickHandler);
 };
 
 thumbnailsContainer.addEventListener('click', (evt) => {
@@ -35,6 +38,7 @@ const closeBigPictureModal = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+  bigPictureLike.removeEventListener('click', likeClickHandler);
   clearComments();
 };
 
