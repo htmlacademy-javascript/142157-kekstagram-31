@@ -22,4 +22,4 @@ const renderThumbnails = () => {
   return thumbnailsContainer.append(fragment);
 };
 
-export { renderThumbnails };
+export { renderThumbnails, postsData };
