@@ -7,8 +7,9 @@ const postsData = createArrayPosts();
 const renderThumbnails = () => {
   const fragment = document.createDocumentFragment();
 
-  postsData.forEach(({ url, description, likes, comments }) => {
+  postsData.forEach(({ id, url, description, likes, comments }) => {
     const thumbnail = thumbnailTemplate.cloneNode(true);
+    thumbnail.dataset.id = id;
 
     const picture = thumbnail.querySelector('.picture__img');
     picture.src = url;

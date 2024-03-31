@@ -6,7 +6,6 @@ import { likeClickHandler } from './likes.js';
 const bigPicture = document.querySelector('.big-picture');
 const closeBigPictureButton = bigPicture.querySelector('.big-picture__cancel');
 const thumbnailsContainer = document.querySelector('.pictures');
-const thumbnailsPictureList = thumbnailsContainer.querySelectorAll('.picture__img');
 const bigPictureLike = bigPicture.querySelector('.likes-count');
 
 const onDocumentKeydown = (evt) => {
@@ -17,28 +16,32 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const getIndexTarget = (element) => [...thumbnailsPictureList].indexOf(element);
-
 const openBigPictureModal = (index) => {
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  createBigPicture(getIndexTarget(index));
+
+  createBigPicture(index);
+
   document.addEventListener('keydown', onDocumentKeydown);
   bigPictureLike.addEventListener('click', likeClickHandler);
 };
 
 thumbnailsContainer.addEventListener('click', (evt) => {
-  if (evt.target.closest('.picture')) {
+  const currentPost = evt.target.closest('.picture');
+
+  if (currentPost) {
     evt.preventDefault();
-    openBigPictureModal(evt.target);
+    openBigPictureModal(currentPost.dataset.id);
   }
 });
 
 const closeBigPictureModal = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
+
   document.removeEventListener('keydown', onDocumentKeydown);
   bigPictureLike.removeEventListener('click', likeClickHandler);
+
   clearComments();
 };
 
