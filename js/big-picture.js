@@ -10,7 +10,7 @@ const bigPictureTotalComments = bigPicturePreview.querySelector('.social__commen
 
 const createBigPicture = (index) => {
 
-  const element = postsData[index];
+  const element = postsData.find((object) => object.id === Number(index));
   bigPictureImg.src = element.url;
   bigPictureImg.alt = element.description;
   bigPictureLikes.textContent = element.likes;
