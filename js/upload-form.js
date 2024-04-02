@@ -1,5 +1,9 @@
 import { isEscapeKey } from './utils.js';
-import { pristine } from './validate-form.js';
+import { validateHashtags, getErrorText } from './validate-form.js';
+import { setPictureScale, scaleField, resetValueScaleAll } from './scale-picture.js';
+import { resetFilter } from './picture-effects.js';
+
+const MAX_COMMENT_LENGTH = 140;
 
 const uploadForm = document.querySelector('.img-upload__form');
 const modalForm = uploadForm.querySelector('.img-upload__overlay');
@@ -9,6 +13,13 @@ const hashtagsInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const previewImg = uploadForm.querySelector('.img-upload__preview');
 const previewThumbnailsList = uploadForm.querySelectorAll('.effects__preview');
+const commentArea = uploadForm.querySelector('.text__description');
+
+const pristine = new Pristine(uploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error'
+});
 
 // eslint-disable-next-line no-use-before-define
 const oncloseModalFormButton = () => closeUploadForm();
@@ -31,6 +42,7 @@ const openUploadForm = () => {
   modalForm.classList.remove('hidden');
 
   document.addEventListener('keydown', onDocumentKeydown);
+  scaleField.addEventListener('click', setPictureScale);
   closeModalFormButton.addEventListener('click', oncloseModalFormButton);
 };
 
@@ -56,8 +68,26 @@ const closeUploadForm = () => {
   modalForm.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeydown);
+  scaleField.removeEventListener('click', setPictureScale);
   closeModalFormButton.removeEventListener('click', oncloseModalFormButton);
   loaderButton.value = '';
   uploadForm.reset();
   pristine.reset();
+  resetValueScaleAll();
+  resetFilter();
 };
+
+const validateCommentArea = (value) => value.length <= MAX_COMMENT_LENGTH;
+
+pristine.addValidator(hashtagsInput, validateHashtags, getErrorText);
+pristine.addValidator(commentArea, validateCommentArea, `Длинна комментария не более ${MAX_COMMENT_LENGTH} символов`);
+
+uploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  if (pristine.validate()) {
+    uploadForm.submit();
+    pristine.reset();
+    resetFilter();
+  }
+});

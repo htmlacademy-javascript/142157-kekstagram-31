@@ -1,15 +1,7 @@
-const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAGS_LENGTH = 5;
 
 const form = document.querySelector('.img-upload__form');
 const hashtags = form.querySelector('.text__hashtags');
-const commentArea = form.querySelector('.text__description');
-
-const pristine = new Pristine(form, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error'
-});
 
 let errorMessage = '';
 
@@ -52,19 +44,4 @@ const validateHashtags = (value) => {
   return result;
 };
 
-
-const validateCommentArea = (value) => value.length <= MAX_COMMENT_LENGTH;
-
-pristine.addValidator(hashtags, validateHashtags, getErrorText);
-pristine.addValidator(commentArea, validateCommentArea, `Длинна комментария не более ${MAX_COMMENT_LENGTH} символов`);
-
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
-  if (pristine.validate()) {
-    form.submit();
-    pristine.reset();
-  }
-});
-
-export { pristine };
+export { validateHashtags, getErrorText };
