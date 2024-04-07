@@ -1,7 +1,5 @@
-import { postsData, renderThumbnails } from './thumbnails.js';
+import { bigPictureData } from './thumbnails.js';
 import { renderComments } from './create-comments.js';
-
-renderThumbnails();
 
 const bigPicturePreview = document.querySelector('.big-picture__preview');
 const bigPictureImg = bigPicturePreview.querySelector('img');
@@ -10,7 +8,7 @@ const bigPictureTotalComments = bigPicturePreview.querySelector('.social__commen
 
 const createBigPicture = (index) => {
 
-  const element = postsData.find((object) => object.id === Number(index));
+  const element = bigPictureData.find((object) => object.id === Number(index));
   bigPictureImg.src = element.url;
   bigPictureImg.alt = element.description;
   bigPictureLikes.textContent = element.likes;
