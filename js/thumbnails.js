@@ -1,10 +1,9 @@
-import { createArrayPosts } from './create-posts.js';
-
 const thumbnailsContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const postsData = createArrayPosts();
 
-const renderThumbnails = () => {
+let bigPictureData = '';
+
+const renderThumbnails = (postsData) => {
   const fragment = document.createDocumentFragment();
 
   postsData.forEach(({ id, url, description, likes, comments }) => {
@@ -20,7 +19,8 @@ const renderThumbnails = () => {
     fragment.append(thumbnail);
   });
 
+  bigPictureData = postsData;
   return thumbnailsContainer.append(fragment);
 };
 
-export { renderThumbnails, postsData };
+export { renderThumbnails, bigPictureData };
