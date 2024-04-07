@@ -12,7 +12,7 @@ getData()
   .then((data) => {
     renderThumbnails(data);
     showFilter();
-    debounce(setClick(data, renderThumbnails), RERENDER_DELAY);
+    setClick(data, renderThumbnails);
   })
   .catch(() => {
     showCloseAlertGetData();
