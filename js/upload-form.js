@@ -1,10 +1,11 @@
-import { isEscapeKey, showAlert, closeAlert, showSuccess, closeSuccess } from './utils.js';
+import { isEscapeKey, showAlert, closeAlert, showSuccess, closeSuccess, showCloseAlertTypeImg } from './utils.js';
 import { validateHashtags, getErrorText } from './validate-form.js';
 import { setPictureScale, scaleField, resetValueScaleAll } from './scale-picture.js';
 import { resetFilter } from './picture-effects.js';
 import { sendData } from './api.js';
 
 const MAX_COMMENT_LENGTH = 140;
+const FILE_TYPES = ['image/png', 'image/jpeg', 'image/gif'];
 
 const uploadForm = document.querySelector('.img-upload__form');
 const modalForm = uploadForm.querySelector('.img-upload__overlay');
@@ -75,18 +76,19 @@ const openUploadForm = () => {
 loaderButton.addEventListener('change', () => {
   const file = loaderButton.files[0];
   const img = previewImg.firstElementChild;
+  const fileType = file.type;
+  const matches = FILE_TYPES.includes(fileType);
 
-  const reader = new FileReader();
-  reader.addEventListener('load', () => {
-    const url = reader.result;
+  if (matches) {
+    const url = URL.createObjectURL(file);
     img.src = url;
-
     previewThumbnailsList.forEach((thumbnail) => {
       thumbnail.style.backgroundImage = `url("${url}")`;
     });
     openUploadForm();
-  });
-  reader.readAsDataURL(file);
+  } else {
+    showCloseAlertTypeImg('Неверный тип файла. Подходящие png, jpeg, gif');
+  }
 });
 
 const closeUploadForm = () => {

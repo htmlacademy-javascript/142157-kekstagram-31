@@ -33,13 +33,19 @@ const closeAlert = () => {
 };
 
 const errTemplateGetData = document.querySelector('#data-error').content.querySelector('.data-error');
-const showCloseAlertGetData = () => {
+const showCloseAlertTypeImg = (errMessage) => {
   const errArea = errTemplateGetData.cloneNode(true);
+  if (errMessage) {
+    errArea.querySelector('.data-error__title').textContent = errMessage;
+  }
   document.body.append(errArea);
-  const errContainer = document.querySelector('.data-error');
   setTimeout(() => {
-    errContainer.remove();
+    errArea.remove();
   }, TIME_OUT);
+};
+
+const showCloseAlertGetData = () => {
+  showCloseAlertTypeImg();
 };
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -53,4 +59,36 @@ const closeSuccess = () => {
   successContainer.remove();
 };
 
-export { getRandomInteger, getRandomArrayElement, createIdGenerator, isEscapeKey, showAlert, closeAlert, showCloseAlertGetData, showSuccess, closeSuccess };
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+const throttle = (callback, delayBetweenFrames) => {
+  let lastTime = 0;
+  return (...rest) => {
+    const now = new Date();
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+};
+
+export {
+  getRandomInteger,
+  getRandomArrayElement,
+  createIdGenerator,
+  isEscapeKey,
+  showAlert,
+  closeAlert,
+  showCloseAlertGetData,
+  showSuccess,
+  closeSuccess,
+  debounce,
+  throttle,
+  showCloseAlertTypeImg
+};
