@@ -87,7 +87,7 @@ loaderButton.addEventListener('change', () => {
     });
     openUploadForm();
   } else {
-    showCloseAlertTypeImg('Неверный тип файла. Подходящие png, jpeg, gif');
+    return showCloseAlertTypeImg('Неверный тип файла. Подходящие png, jpeg, gif');
   }
 });
 
