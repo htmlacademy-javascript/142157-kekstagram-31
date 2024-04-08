@@ -6,6 +6,14 @@ const sliderContainer = document.querySelector('.img-upload__effect-level');
 
 sliderContainer.classList.add('hidden');
 
+const EFFECT_NAME = {
+  chrome: 'chrome',
+  sepia: 'sepia',
+  marvin: 'marvin',
+  phobos: 'phobos',
+  heat: 'heat',
+};
+
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -74,25 +82,27 @@ let valueCheked = '';
 
 const setStylePicture = (valueFilter) => {
   let style = '';
-  if (valueCheked === 'chrome') {
-    style = picture.style.filter = `grayscale(${valueFilter})`;
 
-  } else if (valueCheked === 'sepia') {
-    style = picture.style.filter = `sepia(${valueFilter})`;
-
-  } else if (valueCheked === 'marvin') {
-    style = picture.style.filter = `invert(${valueFilter}%)`;
-
-  } else if (valueCheked === 'phobos') {
-    style = picture.style.filter = `blur(${valueFilter}px)`;
-
-  } else if (valueCheked === 'heat') {
-    style = picture.style.filter = `brightness(${valueFilter})`;
-
-  } else {
-    style = picture.style.removeProperty('filter');
+  switch (valueCheked) {
+    case EFFECT_NAME.chrome:
+      style = picture.style.filter = `grayscale(${valueFilter})`;
+      return style;
+    case EFFECT_NAME.sepia:
+      style = picture.style.filter = `sepia(${valueFilter})`;
+      return style;
+    case EFFECT_NAME.marvin:
+      style = picture.style.filter = `invert(${valueFilter}%)`;
+      return style;
+    case EFFECT_NAME.phobos:
+      style = picture.style.filter = `blur(${valueFilter}px)`;
+      return style;
+    case EFFECT_NAME.heat:
+      style = picture.style.filter = `brightness(${valueFilter})`;
+      return style;
+    default:
+      style = picture.style.removeProperty('filter');
+      return style;
   }
-  return style;
 };
 
 const resetFilter = () => {

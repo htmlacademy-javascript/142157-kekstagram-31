@@ -130,13 +130,4 @@ const setUserFormSubmit = (onSucces) => {
   });
 };
 
-document.body.addEventListener('click', (evt) => {
-  if (evt.target === document.querySelector('.error') || evt.target === document.querySelector('.error__button')) {
-    closeAlert();
-  }
-  if (evt.target === document.querySelector('.success') || evt.target === document.querySelector('.success__button')) {
-    closeSuccess();
-  }
-});
-
 export { setUserFormSubmit, closeUploadForm };

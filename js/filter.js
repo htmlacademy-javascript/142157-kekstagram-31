@@ -4,7 +4,6 @@ const formFilter = filterContainer.querySelector('.img-filters__form');
 const defaultFilterButton = formFilter.querySelector('#filter-default');
 const randomFilterButton = formFilter.querySelector('#filter-random');
 const discussedFilterButton = formFilter.querySelector('#filter-discussed');
-const pictureContainer = document.querySelector('.pictures');
 
 const SORTFUNC = {
   random: () => 0.5 - Math.random(),
@@ -20,42 +19,31 @@ const showFilter = () => {
   filterContainer.classList.remove(`${CLASSFILTER.inactive}`);
 };
 
-const clearPicture = () => {
-  const array = pictureContainer.querySelectorAll('.picture');
-  for (let i = 0; i < array.length; i++) {
-    array[i].remove();
-  }
-};
-
-const setClick = (data, renderFunction) => {
+const dataFiltering = (data, renderFunction) => {
   formFilter.addEventListener('click', (evt) => {
     const activeButton = formFilter.querySelector(`.${CLASSFILTER.active}`);
     const targetButton = evt.target;
 
-    if (targetButton === activeButton) {
-      return;
-    }
+    activeButton.classList.remove(`${CLASSFILTER.active}`);
+    targetButton.classList.add(`${CLASSFILTER.active}`);
 
-    if (targetButton === randomFilterButton) {
-      const result = data.toSorted(SORTFUNC.random).slice(0, MAX_COUNT);
-      clearPicture();
-      renderFunction(result);
+    switch (targetButton) {
+      case activeButton:
+        return;
+      case randomFilterButton: {
+        const filterRandom = data.toSorted(SORTFUNC.random).slice(0, MAX_COUNT);
+        return renderFunction(filterRandom);
+      }
+      case discussedFilterButton: {
+        const filterCount = data.toSorted(SORTFUNC.discussed);
+        return renderFunction(filterCount);
+      }
+      case defaultFilterButton:
+        return renderFunction(data);
+      default:
+        throw new Error('Условия не выполнены, проверьте сравниваемые цели функции');
     }
-
-    if (targetButton === defaultFilterButton) {
-      clearPicture();
-      renderFunction(data);
-    }
-
-    if (targetButton === discussedFilterButton) {
-      const result = data.toSorted(SORTFUNC.discussed);
-      clearPicture();
-      renderFunction(result);
-    }
-
-    activeButton.classList.toggle(`${CLASSFILTER.active}`);
-    targetButton.classList.toggle(`${CLASSFILTER.active}`);
   });
 };
 
-export { showFilter, setClick };
+export { showFilter, dataFiltering };
