@@ -3,6 +3,11 @@ const thumbnailTemplate = document.querySelector('#picture').content.querySelect
 
 let bigPictureData = '';
 
+const clearPicture = () => {
+  const array = thumbnailsContainer.querySelectorAll('.picture');
+  array.forEach((element) => element.remove());
+};
+
 const renderThumbnails = (postsData) => {
   const fragment = document.createDocumentFragment();
 
@@ -20,6 +25,7 @@ const renderThumbnails = (postsData) => {
   });
 
   bigPictureData = postsData;
+  clearPicture();
   thumbnailsContainer.append(fragment);
 };
 
