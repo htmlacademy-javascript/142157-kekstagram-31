@@ -6,13 +6,13 @@ import { getData } from './api.js';
 import { showCloseAlertGetData, debounce } from './utils.js';
 import { showFilter, setClick } from './filter.js';
 
-const RERENDER_DELAY = 500;
+const RERENDER_DELAY = 5000;
 
 getData()
   .then((data) => {
     renderThumbnails(data);
     showFilter();
-    setClick(data, renderThumbnails);
+    debounce(setClick(data, renderThumbnails), RERENDER_DELAY);
   })
   .catch(() => {
     showCloseAlertGetData();
