@@ -20,7 +20,7 @@ const renderThumbnails = (postsData) => {
   });
 
   bigPictureData = postsData;
-  return thumbnailsContainer.append(fragment);
+  thumbnailsContainer.append(fragment);
 };
 
 export { renderThumbnails, bigPictureData };
