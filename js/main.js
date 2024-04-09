@@ -4,7 +4,7 @@ import './picture-effects.js';
 import { renderThumbnails } from './thumbnails.js';
 import { getData } from './api.js';
 import { showCloseAlertGetData, debounce } from './utils.js';
-import { showFilter, dataFiltering } from './filter.js';
+import { showFilter, filteringData } from './filter.js';
 
 const RERENDER_DELAY = 500;
 const debounceRender = debounce(renderThumbnails, RERENDER_DELAY);
@@ -13,7 +13,7 @@ getData()
   .then((data) => {
     renderThumbnails(data);
     showFilter();
-    dataFiltering(data, debounceRender);
+    filteringData(data, debounceRender);
   })
   .catch(() => {
     showCloseAlertGetData();

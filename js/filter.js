@@ -19,7 +19,7 @@ const showFilter = () => {
   filterContainer.classList.remove(`${CLASSFILTER.inactive}`);
 };
 
-const dataFiltering = (data, renderFunction) => {
+const filteringData = (data, renderFunction) => {
   formFilter.addEventListener('click', (evt) => {
     const activeButton = formFilter.querySelector(`.${CLASSFILTER.active}`);
     const targetButton = evt.target;
@@ -46,4 +46,4 @@ const dataFiltering = (data, renderFunction) => {
   });
 };
 
-export { showFilter, dataFiltering };
+export { showFilter, filteringData };

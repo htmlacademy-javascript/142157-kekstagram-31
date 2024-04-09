@@ -5,7 +5,7 @@ import { resetFilter } from './picture-effects.js';
 import { sendData } from './api.js';
 
 const MAX_COMMENT_LENGTH = 140;
-const FILE_TYPES = ['image/png', 'image/jpeg', 'image/gif'];
+const TYPES = ['image/png', 'image/jpeg', 'image/gif'];
 
 const uploadForm = document.querySelector('.img-upload__form');
 const modalForm = uploadForm.querySelector('.img-upload__overlay');
@@ -25,7 +25,7 @@ const pristine = new Pristine(uploadForm, {
 });
 
 // eslint-disable-next-line no-use-before-define
-const oncloseModalFormButton = () => closeUploadForm();
+const onCloseModalFormButton = () => closeUploadForm();
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -44,12 +44,14 @@ const onDocumentKeydown = (evt) => {
 const onDocumentKeydownSuccess = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeSuccess();
+    if (document.querySelector('.success')) {
+      closeSuccess();
+    }
     document.removeEventListener('keydown', onDocumentKeydownSuccess);
   }
 };
 
-const submitButtonText = {
+const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикую...'
 };
@@ -70,14 +72,14 @@ const openUploadForm = () => {
 
   document.addEventListener('keydown', onDocumentKeydown);
   scaleField.addEventListener('click', setPictureScale);
-  closeModalFormButton.addEventListener('click', oncloseModalFormButton);
+  closeModalFormButton.addEventListener('click', onCloseModalFormButton);
 };
 
 loaderButton.addEventListener('change', () => {
   const file = loaderButton.files[0];
   const img = previewImg.firstElementChild;
   const fileType = file.type;
-  const matches = FILE_TYPES.includes(fileType);
+  const matches = TYPES.includes(fileType);
 
   if (matches) {
     const url = URL.createObjectURL(file);
@@ -97,7 +99,7 @@ const closeUploadForm = () => {
 
   document.removeEventListener('keydown', onDocumentKeydown);
   scaleField.removeEventListener('click', setPictureScale);
-  closeModalFormButton.removeEventListener('click', oncloseModalFormButton);
+  closeModalFormButton.removeEventListener('click', onCloseModalFormButton);
   loaderButton.value = '';
   uploadForm.reset();
   pristine.reset();
@@ -115,7 +117,7 @@ const setUserFormSubmit = (onSucces) => {
     evt.preventDefault();
     const isValidate = pristine.validate();
     if (isValidate) {
-      blockSubmitButton(submitButtonText.SENDING);
+      blockSubmitButton(SubmitButtonText.SENDING);
       sendData(new FormData(evt.target))
         .then(onSucces)
         .then(showSuccess)
@@ -124,7 +126,7 @@ const setUserFormSubmit = (onSucces) => {
         })
         .catch(() => showAlert())
         .finally(() => {
-          unblockSubmitButton(submitButtonText.IDLE);
+          unblockSubmitButton(SubmitButtonText.IDLE);
         });
     }
   });

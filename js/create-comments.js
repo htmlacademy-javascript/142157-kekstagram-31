@@ -1,6 +1,6 @@
 const COUNT_STEP = 5;
 let currentCount = 0;
-let commentsCurrentElement = [];
+let comments = [];
 
 const bigPictureContainer = document.querySelector('.big-picture__preview');
 const bigPictureShownComments = bigPictureContainer.querySelector('.social__comment-shown-count');
@@ -10,7 +10,7 @@ const commentsContainer = document.querySelector('.social__comments');
 
 const createComments = () => {
   const fragment = document.createDocumentFragment();
-  const data = commentsCurrentElement.slice(currentCount, currentCount + COUNT_STEP);
+  const data = comments.slice(currentCount, currentCount + COUNT_STEP);
   const renderCommentsCount = data.length + currentCount;
 
   data.forEach(({ avatar, name, message }) => {
@@ -34,7 +34,7 @@ const createComments = () => {
 
   bigPictureCommentLoaderButton.addEventListener('click', createComments);
 
-  if (renderCommentsCount >= commentsCurrentElement.length) {
+  if (renderCommentsCount >= comments.length) {
     bigPictureCommentLoaderButton.classList.add('hidden');
     bigPictureCommentLoaderButton.removeEventListener('click', createComments);
   }
@@ -49,7 +49,7 @@ const clearComments = () => {
 
 const renderComments = (array) => {
   bigPictureCommentsList.innerHTML = '';
-  commentsCurrentElement = array;
+  comments = array;
   createComments();
 };
 
